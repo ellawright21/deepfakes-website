@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learn – Deepfakes and Misinformation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --bg: #f0f0ec; --dark: #111; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 3rem; background: var(--bg);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .nav-brand { font-weight: 500; font-size: 1rem; text-decoration: none; color: var(--dark); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; opacity: 0.65; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.1;
+      margin-top: 3.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+      opacity: 0.85;
+    }
+
+    img {
+      display: block;
+      max-width: 420px;
+      width: 100%;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+
+    ul {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    ul li {
+      font-size: 1rem;
+      line-height: 1.75;
+      opacity: 0.85;
+      margin-bottom: 0.3rem;
+    }
+
+    .quiz-cta {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .quiz-cta h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      margin-top: 0;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .quiz-btn {
+      display: inline-block;
+      background: #111;
+      color: #f0f0ec;
+      text-decoration: none;
+      border-radius: 50px;
+      padding: 1rem 2.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .quiz-btn:hover { background: #333; transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 0.75rem; }
+      .page { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-brand">Deepfakes and Misinformation</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="learn.html" class="active">Learn</a></li>
+      <li><a href="ethical-issues.html">Ethical Issues</a></li>
+      <li><a href="stakeholders.html">Stakeholders</a></li>
+      <li><a href="quiz.html">Deepfake Quiz</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <h1>What are Deepfakes?</h1>
+    <p>Deepfakes are AI-generated videos, images, or audio that realistically imitate real people. They can make someone appear to say or do something they never actually did.</p>
+
+    <figure>
+      <img src="puffer_pope.webp" alt="Example deepfake images of Pope Francis wearing a white puffer jacket" />
+      <figcaption>These photos of Pope Francis went viral, but they are deepfakes. Some tells are how his had and waterbottle are distorted in one of the images and how sharp his skin looks.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="Katy_Perry_AI.jpg.webp" alt="Example deepfake image of Katy Perry at the Met Gala" />
+      <figcaption>This deepfake photo of Katy Perry from the 2024 Met Gala also went viral. That year, there were other deepfakes of celebrities at the Met Gala that went viral including Rihanna, Selena Gomez, Lady Gaga, and Kim Kardashian. The same thing happened to Katy Perry the next year.</figcaption>
+    </figure>
+
+    <h2>How are Deepfakes Created?</h2>
+    <p>To create a deepfake, the process begins with a phase called data collection. A person uses a computer program to gather thousands of images and videos of a specific target individual. The software analyzes these images to recognize patterns in the person's facial structure and movements. It looks for details such as the distance between the eyes, the way the jaw moves during speech, and how skin texture changes under different lighting conditions. This allows the artificial intelligence to build a mathematical model of that person's physical appearance.</p>
+    <p>Once the model is built, the software uses a system known as an autoencoder to perform the actual replacement. This system consists of two parts: an encoder and a decoder. The encoder looks at a video of a different person, called the source, and breaks their facial expressions down into a basic map of movements. The decoder then uses that map to reconstruct it from the target individual's digital features. The result is a video where the target person appears to be mimicking the exact expressions and lip movements of the source person in real time.</p>
+    <p>To ensure the final video looks indistinguishable from reality, a Generative Adversarial Network is often used. This setup involves two competing neural networks. One network, the generator, creates the synthetic images while the other network, the discriminator, attempts to identify if those images are fake. As these two networks interact, the generator constantly improves its output based on the failures identified by the discriminator. This repetitive cycle continues until the artificial images are smooth and realistic enough to appear like genuine camera footage.</p>
+    <p>Because of this process, modern deepfakes are capable of producing highly realistic facial movements, speech patterns, and visual details that can be difficult for viewers to recognize as artificial.</p>
+
+    <h2>Why Deepfakes are Difficult to Detect</h2>
+    <p>As deepfake technology improves, detection systems struggle to keep up. Researchers often describe this situation as an "arms race" between creators of deepfakes and developers building detection software. Every time detection systems improve, AI generation systems also become more advanced.</p>
+    <p>Many detection tools look for inconsistencies such as unnatural blinking, distorted facial edges, unusual lighting, or lip movements that do not perfectly match the audio. However, newer deepfakes are becoming increasingly sophisticated and are able to reduce many of these flaws.</p>
+    <p>Detection systems also face challenges because they rely heavily on training data. If the data used to train the software is limited or biased, the detection tool may struggle to recognize manipulated content accurately. This means that some deepfakes may go undetected while authentic content could incorrectly be labeled as fake.</p>
+    <p>As a result, researchers argue that there is currently no perfect solution for identifying all deepfakes accurately.</p>
+
+    <h2>Positive Uses of Deepfake Technology</h2>
+    <p>Although deepfakes are commonly discussed in negative contexts, the technology can also be used in beneficial and creative ways. In the entertainment industry, filmmakers can use AI-generated effects to recreate actors, improve visual effects, or digitally restore voices and footage. Some accessibility tools use similar AI systems to generate speech for individuals who have lost the ability to speak.</p>
+    <p>Educational programs may also use AI-generated simulations to create more interactive learning experiences. In advertising and media production, deepfake-style technologies can help create personalized content more efficiently.</p>
+    <p>These positive uses show that deepfake technology itself is not inherently unethical. Instead, ethical concerns depend on how the technology is applied and whether it is used responsibly and transparently.</p>
+
+    <h2>Deepfakes in Politics and Social Media</h2>
+    <p>One of the most concerning uses of deepfake technology involves politics and social media. AI-generated videos of political leaders or public figures can spread misinformation quickly and influence how people think about important issues or elections.</p>
+    <p>Because social media platforms prioritize viral and engaging content, manipulated videos can spread to millions of users before they are fact-checked or removed. Even after false content is corrected, the original misinformation may continue affecting public opinion.</p>
+    <p>This creates challenges not only for governments and journalists but also for everyday social media users who may struggle to determine whether online content is trustworthy.</p>
+
+    <h2>Deepfakes in Advertising and Marketing</h2>
+    <p>Deepfake technology is also changing the advertising and marketing industries. Companies can use AI-generated media to create highly personalized advertisements or realistic digital spokespeople without requiring a person to be physically present.</p>
+    <p>While this may make advertisements more engaging, it also raises concerns about transparency and deception. Consumers may not always realize when content has been artificially created, which could influence purchasing decisions without their full awareness.</p>
+    <p>Because of this, many researchers argue that companies should clearly disclose when AI-generated media is being used in advertising campaigns.</p>
+
+    <h2>How to Spot a Deepfake</h2>
+    <p>Although deepfakes are becoming more realistic, there are still several warning signs that may help identify manipulated content.</p>
+    <p>Some visual clues include:</p>
+    <ul>
+      <li>unnatural facial expressions</li>
+      <li>blurry or warped edges around the face</li>
+      <li>inconsistent lighting or shadows</li>
+      <li>unusual blinking patterns</li>
+      <li>distorted teeth, eyes, or hair</li>
+    </ul>
+    <p>Audio clues may include:</p>
+    <ul>
+      <li>robotic or flat voice tones</li>
+      <li>awkward pauses in speech</li>
+      <li>mismatched lip movements</li>
+      <li>inconsistent background sound</li>
+    </ul>
+    <p>Users should also pay attention to the source of the content. Viral videos designed to provoke strong emotional reactions should be approached carefully, especially if they come from unreliable accounts or websites.</p>
+    <p>Checking multiple sources, using fact-checking websites, and thinking critically about online content are important ways individuals can protect themselves from misinformation.</p>
+
+    <h2>Why Awareness Matters</h2>
+    <p>Deepfakes are becoming a permanent part of the digital world. As AI-generated media becomes more advanced and accessible, it is increasingly important for users to understand how these systems work and how they can affect society.</p>
+    <p>Awareness and digital literacy are essential for helping people recognize manipulated media, think critically about online information, and protect themselves from misinformation. While technology companies and governments may continue developing regulations and detection tools, individuals also play an important role in maintaining trust and accountability online.</p>
+    <p>Understanding deepfakes is not only about recognizing fake videos, but it is also about protecting privacy, preserving trust, and learning how to responsibly navigate an increasingly AI-driven digital environment.</p>
+
+    <div class="quiz-cta">
+      <h2>How Well Can You Spot a Deepfake?</h2>
+      <a href="quiz.html" class="quiz-btn">Take the Quiz Here!</a>
+    </div>
+
+  </div>
+</body>
+</html>

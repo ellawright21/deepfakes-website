@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ethical Issues – Deepfakes and Misinformation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #111; color: #f0f0ec; min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 3rem; background: #111;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-brand { font-weight: 500; font-size: 1rem; text-decoration: none; color: #f0f0ec; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: #f0f0ec; font-size: 0.9rem; opacity: 0.5; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+    .page { padding: 5rem 3rem 3rem; max-width: 1100px; margin: 0 auto; animation: fadeUp 0.7s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.05; letter-spacing: -0.02em;
+      text-align: center; margin-bottom: 3.5rem;
+    }
+
+    /* Two-column accordion grid */
+    .accordion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 3rem;
+    }
+
+    .accordion-item {
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .accordion-btn {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 0; background: none; border: none; color: #f0f0ec;
+      font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 400;
+      cursor: pointer; text-align: left; transition: opacity 0.2s;
+    }
+    .accordion-btn:hover { opacity: 0.75; }
+
+    .accordion-icon {
+      font-size: 1.4rem; font-weight: 300; flex-shrink: 0;
+      margin-left: 1rem; transition: transform 0.3s;
+    }
+    .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+
+    .accordion-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 0.92rem; line-height: 1.75; opacity: 0.75;
+    }
+    .accordion-item.open .accordion-body {
+      max-height: 400px;
+      padding-bottom: 1.4rem;
+    }
+
+    .page-footer {
+      text-align: center; margin-top: 4rem;
+      font-size: 0.9rem; line-height: 1.75; opacity: 0.6;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+      padding-bottom: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 0.75rem; }
+      .page { padding: 3rem 1.5rem; }
+      .accordion-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-brand">Deepfakes and Misinformation</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="ethical-issues.html" class="active">Ethical Issues</a></li>
+      <li><a href="stakeholders.html">Stakeholders</a></li>
+      <li><a href="quiz.html">Deepfake Quiz</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <h1 class="page-title">The Ethical Risks of Deepfakes</h1>
+
+    <div class="accordion-grid">
+      <!-- Left column -->
+      <div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Privacy &amp; Consent
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            Deepfakes allow a person’s likeness, voice, or identity to be used without permission. Individuals may appear in fake videos or audio recordings that they never agreed to participate in, violating personal autonomy and identity rights. <br>
+            For many victims, this can lead to embarrassment, emotional distress, and loss of control over how they are represented online. Because AI systems only need images or recordings from social media to imitate someone, almost anyone can become vulnerable to misuse.
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Misinformation &amp; Manipulation
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            Deepfakes can spread false information quickly, especially on social media platforms where content is shared rapidly. Manipulated videos of political leaders, celebrities, or public figures may influence public opinion before viewers realize the content is fake.<br>
+            Because deepfakes often appear realistic, they can create confusion during elections, public emergencies, or major news events. This makes it harder for people to distinguish between factual information and manipulated media.
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Erosion of Trust
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            As deepfakes become more advanced, trust in digital media declines. People may begin questioning whether videos, audio recordings, or photographs are authentic, even when the content is real.<br>
+            This creates larger societal concerns because journalism, legal evidence, and public communication all rely on trust in visual and audio information. If people stop believing what they see online, it becomes more difficult for society to rely on shared facts and evidence.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Harassment &amp; Defamation
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            Victims of deepfakes may experience targeted harassment, reputational damage, and emotional harm. Manipulated media can spread rapidly online and may continue affecting a person even after the content is removed.<br>
+            Nonconsensual deepfake content is especially harmful because it exploits individuals without their permission and can damage careers, relationships, and mental health.
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Accountability
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            One of the biggest ethical questions surrounding deepfakes is determining who is responsible for preventing misuse. Responsibility may fall on AI developers, social media platforms, governments, or users themselves.<br>
+            Technology companies may argue that users misuse their tools, while platforms may struggle to detect manipulated media quickly enough. Governments face challenges regulating content across countries and online spaces.<br>
+            Because responsibility is shared across many groups, there is currently no single solution to preventing harmful deepfake content.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="page-footer">Deepfakes challenge more than technology. They challenge trust, identity, and how society understands truth online. As AI-generated media becomes more common, learning how to recognize and respond to manipulation becomes increasingly important.</p>
+  </div>
+
+  <script>
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfake Quiz – Deepfakes and Misinformation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --bg: #a8b8cc; --dark: #111; --light: #f0f0ec; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 3rem; background: var(--bg);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .nav-brand { font-weight: 500; font-size: 1rem; text-decoration: none; color: var(--dark); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; opacity: 0.65; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+    .page { max-width: 720px; margin: 0 auto; padding: 4rem 2rem 6rem; animation: fadeUp 0.6s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.05; text-align: center; margin-bottom: 0.75rem;
+    }
+    .page-intro { text-align: center; font-size: 0.95rem; opacity: 0.7; line-height: 1.7; margin-bottom: 2.5rem; }
+
+    /* PROGRESS */
+    .progress-wrap { background: rgba(0,0,0,0.12); border-radius: 50px; height: 6px; margin-bottom: 0.5rem; }
+    .progress-bar { height: 6px; border-radius: 50px; background: #1a1a1a; transition: width 0.4s ease; }
+    .progress-label { font-size: 0.8rem; opacity: 0.55; text-align: right; margin-bottom: 2rem; }
+
+    /* CARD */
+    .question-card { background: var(--light); border-radius: 16px; overflow: hidden; }
+
+    .media-wrapper {
+      background: #111;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 300px; max-height: 440px; overflow: hidden;
+    }
+    .media-wrapper img { max-width: 100%; max-height: 440px; display: block; object-fit: contain; }
+    .media-wrapper video { max-width: 100%; max-height: 440px; display: block; }
+
+    .card-body { padding: 1.8rem; }
+
+    .question-label {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; opacity: 0.45; margin-bottom: 0.5rem;
+    }
+    .question-text {
+      font-family: 'DM Serif Display', serif; font-size: 1.35rem;
+      line-height: 1.3; margin-bottom: 1.5rem;
+    }
+
+    .guess-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.2rem; }
+    .guess-btn {
+      padding: 1rem; border: 2px solid transparent; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .guess-btn.real { background: #fff; border-color: #2d7a4f; color: #2d7a4f; }
+    .guess-btn.real:hover:not(:disabled) { background: #2d7a4f; color: #fff; }
+    .guess-btn.ai { background: #fff; border-color: #b03a2e; color: #b03a2e; }
+    .guess-btn.ai:hover:not(:disabled) { background: #b03a2e; color: #fff; }
+    .guess-btn:disabled { opacity: 0.4; cursor: default; }
+    .guess-btn.selected-real { background: #2d7a4f; color: #fff; }
+    .guess-btn.selected-ai { background: #b03a2e; color: #fff; }
+
+    /* FEEDBACK */
+    .feedback-box {
+      display: none; border-radius: 10px; padding: 1.2rem 1.4rem;
+      margin-bottom: 1.2rem; animation: fadeUp 0.3s ease both;
+    }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct { background: #d4edda; border: 1.5px solid #2d7a4f; }
+    .feedback-box.wrong { background: #f8d7da; border: 1.5px solid #b03a2e; }
+    .feedback-header { font-weight: 500; font-size: 1rem; margin-bottom: 0.4rem; }
+    .feedback-box.correct .feedback-header { color: #1a5c33; }
+    .feedback-box.wrong .feedback-header { color: #7b2020; }
+    .feedback-body { font-size: 0.88rem; line-height: 1.65; opacity: 0.85; }
+
+    .next-btn {
+      display: none; width: 100%; padding: 1rem; border: none;
+      border-radius: 50px; background: #111; color: #f0f0ec;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .next-btn:hover { background: #333; }
+
+    /* RESULTS */
+    .results-card {
+      display: none; background: var(--light); border-radius: 16px;
+      padding: 3rem 2rem; text-align: center;
+    }
+    .results-card.show { display: block; animation: fadeUp 0.5s ease both; }
+    .results-card h2 { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+    .score-big { font-family: 'DM Serif Display', serif; font-size: 4rem; margin: 1.2rem 0; }
+    .results-card p { font-size: 0.95rem; line-height: 1.75; opacity: 0.75; max-width: 460px; margin: 0 auto 2rem; }
+    .restart-btn {
+      background: #111; color: #f0f0ec; border: none; border-radius: 50px;
+      padding: 1rem 2.5rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; transition: background 0.2s;
+    }
+    .restart-btn:hover { background: #333; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 0.75rem; }
+      .page { padding: 2.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-brand">Deepfakes and Misinformation</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="ethical-issues.html">Ethical Issues</a></li>
+      <li><a href="stakeholders.html">Stakeholders</a></li>
+      <li><a href="quiz.html" class="active">Deepfake Quiz</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <h1 class="page-title">Can You Spot the Deepfake?</h1>
+    <p class="page-intro">Look at each image or video carefully. Decide whether it is real or AI-generated, then find out if you were right.</p>
+
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="progress-label" id="progress-label">Question 1 of 5</div>
+
+    <div class="question-card" id="question-card">
+      <div class="media-wrapper" id="media-wrapper"></div>
+      <div class="card-body">
+        <div class="question-label" id="question-label">Question 1</div>
+        <div class="question-text" id="question-text"></div>
+        <div class="guess-btns">
+          <button class="guess-btn real" id="btn-real" onclick="submitGuess('real')">✓ Real</button>
+          <button class="guess-btn ai" id="btn-ai" onclick="submitGuess('ai')">✕ AI / Deepfake</button>
+        </div>
+        <div class="feedback-box" id="feedback-box">
+          <div class="feedback-header" id="feedback-header"></div>
+          <div class="feedback-body" id="feedback-body"></div>
+        </div>
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+
+    <div class="results-card" id="results-card">
+      <h2>Quiz Complete</h2>
+      <div class="score-big" id="score-big"></div>
+      <p id="results-message"></p>
+      <button class="restart-btn" onclick="restartQuiz()">Try Again</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+
+      // ----- QUESTION 1 -----
+      {
+        media: "bunnies_video.jpg",
+        type: "video",
+        question: "Is this video real or AI-generated?",
+        answer: "ai",
+        explanation: "This image was AI-generated. Notice the lighting and how one of the bunnies dissapears in the middle of the video."
+      },
+
+      {
+        media: "real_mountains.webp",
+        type: "image",
+        question: "Is this photo real or AI-generated?",
+        answer: "real",    
+        explanation: "This is a real photograph. The lighting and landscape are all consistent with a real image."
+      },
+
+      {
+        media: "AI_toast.webp",    
+        type: "image",
+        question: "Is this photo real or AI-generated?",
+        answer: "ai",
+        explanation: "This was AI-generated. The texture of the bread looks off in the photo as well as the misshappen lime next to the toast."
+      },
+
+      {
+        media: "real_person.webp", 
+        type: "image",
+        question: "Is this photo real or AI-generated?",
+        answer: "real",
+        explanation: "This is real. Both the person and the background look natural."
+      },
+
+      {
+        media: "AI_human.png", 
+        type: "image",
+        question: "Is this photo real or AI-generated?",
+        answer: "ai",
+        explanation: "This was AI-generated. The hand looks slightly unnatural as well as some of the tools that look vauge or melted together."
+      }
+
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[current];
+      const pct = (current / questions.length) * 100;
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-label').textContent = `Question ${current + 1} of ${questions.length}`;
+      document.getElementById('question-label').textContent = `Question ${current + 1}`;
+      document.getElementById('question-text').textContent = q.question;
+
+      const wrapper = document.getElementById('media-wrapper');
+      wrapper.innerHTML = '';
+      if (q.type === 'video') {
+        const video = document.createElement('video');
+        video.src = q.media;
+        video.controls = true;
+        wrapper.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = q.media;
+        img.alt = 'Quiz media';
+        wrapper.appendChild(img);
+      }
+
+      document.getElementById('feedback-box').className = 'feedback-box';
+      document.getElementById('next-btn').style.display = 'none';
+      document.getElementById('btn-real').disabled = false;
+      document.getElementById('btn-ai').disabled = false;
+      document.getElementById('btn-real').className = 'guess-btn real';
+      document.getElementById('btn-ai').className = 'guess-btn ai';
+    }
+
+    function submitGuess(guess) {
+      const q = questions[current];
+      const correct = guess === q.answer;
+      if (correct) score++;
+
+      document.getElementById('btn-real').disabled = true;
+      document.getElementById('btn-ai').disabled = true;
+
+      if (guess === 'real') document.getElementById('btn-real').className = 'guess-btn real selected-real';
+      else document.getElementById('btn-ai').className = 'guess-btn ai selected-ai';
+
+      const fb = document.getElementById('feedback-box');
+      fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
+      document.getElementById('feedback-header').textContent = correct
+        ? '✓ Correct! This is ' + (q.answer === 'real' ? 'real.' : 'AI-generated.')
+        : '✕ Not quite. This is actually ' + (q.answer === 'real' ? 'real.' : 'AI-generated.');
+      document.getElementById('feedback-body').textContent = q.explanation;
+
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.style.display = 'block';
+      nextBtn.textContent = current < questions.length - 1 ? 'Next Question' : 'See Results';
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('question-card').style.display = 'none';
+      document.getElementById('progress-wrap') && null;
+      const results = document.getElementById('results-card');
+      results.className = 'results-card show';
+      document.getElementById('score-big').textContent = score + ' / ' + questions.length;
+      const pct = score / questions.length;
+      let msg;
+      if (pct === 1) msg = "Perfect score! You have a sharp eye for spotting AI-generated media.";
+      else if (pct >= 0.8) msg = "Great job! You caught most of them. Review the ones you missed to sharpen your skills.";
+      else if (pct >= 0.6) msg = "Not bad. Deepfakes can be tricky — explore the Learn page to get better at spotting the signs.";
+      else msg = "Deepfakes are hard to detect! Head to the Learn page to find out what clues to look for next time.";
+      document.getElementById('results-message').textContent = msg;
+    }
+
+    function restartQuiz() {
+      current = 0; score = 0;
+      document.getElementById('question-card').style.display = 'block';
+      document.getElementById('results-card').className = 'results-card';
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
